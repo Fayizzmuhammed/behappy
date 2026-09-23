@@ -41,6 +41,8 @@ p{margin:0;font-size:clamp(16px,2.2vw,20px);line-height:1.5;color:#c9c1b0;max-wi
 .cta:hover{transform:translateY(-2px) scale(1.02)}
 .cta:active{transform:scale(.97)}
 .cta:focus-visible{outline:3px solid #fff;outline-offset:4px}
+.alt{margin-top:-10px;font-size:14px;font-weight:700;color:#a39a88;text-decoration:underline;text-underline-offset:3px;padding:8px}
+.alt:hover{color:#f5f1e8}
 .ok{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#a39a88}
 .bob{animation:bob 1.2s ease-in-out infinite}
 .nudge{animation:nudge 1s ease-in-out infinite}
@@ -71,6 +73,8 @@ p{margin:0;font-size:clamp(16px,2.2vw,20px);line-height:1.5;color:#c9c1b0;max-wi
     <svg class="nudge" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
   </a>
 
+  <a class="alt" href="https://t.me/+CBZMaj4t9q9mOTY1">Trouble joining? Open in browser</a>
+
   <div class="ok">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#7ccf8a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
     Bonus included free for every member
@@ -87,6 +91,7 @@ p{margin:0;font-size:clamp(16px,2.2vw,20px);line-height:1.5;color:#c9c1b0;max-wi
   addEventListener('pagehide',function(){left=true});
   document.addEventListener('visibilitychange',function(){if(document.hidden)left=true});
   a.addEventListener('pointerdown',lead,{passive:true});
+  document.querySelector('.alt').addEventListener('pointerdown',lead,{passive:true});
   a.addEventListener('click',function(){
     lead();left=false;
     setTimeout(function(){if(!left&&!document.hidden)location.href=web;},1500);
