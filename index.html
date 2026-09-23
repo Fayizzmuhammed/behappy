@@ -41,6 +41,12 @@ p{margin:0;font-size:clamp(16px,2.2vw,20px);line-height:1.5;color:#c9c1b0;max-wi
 .cta:hover{transform:translateY(-2px) scale(1.02)}
 .cta:active{transform:scale(.97)}
 .cta:focus-visible{outline:3px solid #fff;outline-offset:4px}
+.fb{display:none;width:100%;max-width:440px;padding:16px;border-radius:16px;background:#1a1712;border:1px solid rgba(242,182,50,.35);font-size:14px;line-height:1.5;color:#c9c1b0}
+.fb.show{display:block}
+.fb strong{display:block;color:#f5f1e8;font-size:16px;margin-bottom:10px}
+.fb a,.fb button{display:block;width:100%;margin-top:8px;padding:14px;border-radius:12px;border:0;font:inherit;font-weight:800;font-size:15px;text-decoration:none;cursor:pointer}
+.fb .b1{background:#f2b632;color:#141210}
+.fb .b2{background:#2a251c;color:#f5f1e8}
 .ok{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#a39a88}
 .bob{animation:bob 1.2s ease-in-out infinite}
 .nudge{animation:nudge 1s ease-in-out infinite}
@@ -71,6 +77,14 @@ p{margin:0;font-size:clamp(16px,2.2vw,20px);line-height:1.5;color:#c9c1b0;max-wi
     <svg class="nudge" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
   </a>
 
+  <div class="fb" id="fb" role="alert">
+    <strong>Telegram didn't open?</strong>
+    <a class="b1" href="tg://join?invite=CBZMaj4t9q9mOTY1">Open Telegram App</a>
+    <a class="b2" href="https://telegram.me/+CBZMaj4t9q9mOTY1" target="_blank" rel="noopener">Open in Browser</a>
+    <button class="b2" type="button" id="cp">Copy Join Link</button>
+    <div style="margin-top:10px;font-size:13px">Still stuck? Tap ⋮ at the top → <b>Open in Chrome</b>, then tap Join Now.</div>
+  </div>
+
   <div class="ok">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#7ccf8a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
     Bonus included free for every member
@@ -81,9 +95,22 @@ p{margin:0;font-size:clamp(16px,2.2vw,20px);line-height:1.5;color:#c9c1b0;max-wi
    completes), then lets the link navigate normally – zero added delay. */
 (function(){
   var a=document.querySelector('.cta'),sent=false;
+  var fb=document.getElementById('fb'),left=false,link='https://t.me/+CBZMaj4t9q9mOTY1';
   function lead(){if(sent)return;sent=true;try{fbq('track','Lead');}catch(e){}}
+  addEventListener('pagehide',function(){left=true});
+  document.addEventListener('visibilitychange',function(){if(document.hidden)left=true});
   a.addEventListener('pointerdown',lead,{passive:true});
-  a.addEventListener('click',lead);
+  a.addEventListener('click',function(){
+    lead();left=false;
+    /* If the in-app browser silently blocks the jump, show backup options */
+    setTimeout(function(){if(!left&&!document.hidden){fb.classList.add('show');fb.scrollIntoView({behavior:'smooth',block:'center'});}},1500);
+  });
+  document.getElementById('cp').addEventListener('click',function(){
+    var b=this;
+    function done(){b.textContent='Copied! Paste it in Telegram';}
+    if(navigator.clipboard){navigator.clipboard.writeText(link).then(done,function(){prompt('Copy this link:',link)});}
+    else{prompt('Copy this link:',link);}
+  });
 })();
 </script>
 </body>
